@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17 Bay St. Louis - HKS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Company Logo" class="logo-img">
+                </a>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html#what-we-do">What We Do</a></li>
+                <li><a href="index.html#how-we-think">How We Think</a></li>
+                <li><a href="index.html#who-we-are">Who We Are</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="index.html#news">News</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <section class="project-header">
+        <div class="project-hero-image" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_1 - Photo.jpg');"></div>
+        <div class="project-header-content">
+            <div class="container">
+                <a href="projects.html" class="back-link">← Back to Projects</a>
+                <h1 class="project-title">17 Bay St. Louis</h1>
+                <p class="project-category">Residential</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Gallery -->
+    <section class="project-gallery">
+        <div class="container">
+            <div class="gallery-grid">
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_1 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_2 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_3 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_4 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_5 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_6 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_7 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_8 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_9 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_10 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_11 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_12 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_13 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_14 - Photo.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_15 - Photo.jpg');" onclick="openLightbox(this)"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Project Image">
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Browse By Practice</h4>
+                    <ul>
+                        <li><a href="#">Residential</a></li>
+                        <li><a href="#">Healthcare</a></li>
+                        <li><a href="#">Commercial</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Browse By Service</h4>
+                    <ul>
+                        <li><a href="#">Architecture</a></li>
+                        <li><a href="#">Interior Design</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="index.html#contact">Get in Touch</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; HKS Inc 2025</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
