@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Truck Pitt - HKS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Company Logo" class="logo-img">
+                </a>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html#what-we-do">What We Do</a></li>
+                <li><a href="index.html#how-we-think">How We Think</a></li>
+                <li><a href="index.html#who-we-are">Who We Are</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="index.html#news">News</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="project-header">
+        <div class="project-hero-image" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/01.jpg');"></div>
+        <div class="project-header-content">
+            <div class="container">
+                <a href="projects.html" class="back-link">← Back to Projects</a>
+                <h1 class="project-title">Heavy Truck Pitt</h1>
+                <p class="project-category">Commercial</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="project-gallery">
+        <div class="container">
+            <div class="gallery-grid">
+                <div class="gallery-item" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/01.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/02.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/03.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/04.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/05.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/06.jpg');" onclick="openLightbox(this)"></div>
+                <div class="gallery-item" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/07.jpg');" onclick="openLightbox(this)"></div>
+            </div>
+        </div>
+    </section>
+
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Project Image">
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Browse By Practice</h4>
+                    <ul>
+                        <li><a href="#">Commercial</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="index.html#contact">Get in Touch</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; HKS Inc 2025</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
