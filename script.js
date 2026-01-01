@@ -33,7 +33,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Rotating text in hero section
 const rotatingTexts = [
     'Building Tomorrow.',
-    'Engineering Excellence.',
     'Innovating Solutions.',
     'Creating Value.',
     'Delivering Quality.',

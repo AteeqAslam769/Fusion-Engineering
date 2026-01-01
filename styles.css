@@ -525,11 +525,11 @@ body {
 }
 
 .how-we-think-title {
-    font-size: clamp(3rem, 7vw, 10rem);
+    font-size: clamp(2.5rem, 6.5vw, 9.0rem);
     font-weight: 300;
     margin-bottom: 2rem;
     color: var(--secondary-color);
-    text-transform: lowercase;
+    text-transform: uppercase;
     letter-spacing: 1px;
     will-change: transform;
     transition: transform 0.1s ease-out;
