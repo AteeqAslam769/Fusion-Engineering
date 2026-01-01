@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HKS - The future isn't happening to us, we are its designers.</title>
+    <title>Fusion Engineering - Engineering Excellence, Building Tomorrow</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -20,7 +20,6 @@
                 <li><a href="index.html#how-we-think">How We Think</a></li>
                 <li><a href="index.html#who-we-are">Who We Are</a></li>
                 <li><a href="projects.html">Projects</a></li>
-                <li><a href="index.html#news">News</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
@@ -33,68 +32,39 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="hero-slideshow">
+            <div class="slide active"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+        </div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1 class="hero-title">
-                <span class="hero-text-static">The future isn't happening to us, we are its</span>
-                <span class="hero-text-rotating" id="rotatingText">designers.</span>
+                <span class="hero-text-static">Engineering Excellence,</span>
+                <span class="hero-text-rotating" id="rotatingText">Building Tomorrow.</span>
             </h1>
-            <div class="hero-subtitle">
-                <p>I'm interested in</p>
-                <div class="interests-grid">
-                    <span>Architecture</span>
-                    <span>Aviation</span>
-                    <span>Health</span>
-                    <span>Hospitality</span>
-                    <span>Sports & Entertainment</span>
-                    <span>Education</span>
-                    <span>Office</span>
-                    <span>Planning & Urban Design</span>
-                </div>
-            </div>
             <div class="scroll-indicator">
                 <span>Scroll to explore</span>
                 <div class="scroll-arrow"></div>
             </div>
         </div>
-    </section>
-
-    <!-- Featured News Section -->
-    <section id="news" class="featured-news">
-        <div class="container">
-            <h2 class="section-title">Featured News</h2>
-            <div class="news-grid">
-                <article class="news-card">
-                    <div class="news-badge">announcement</div>
-                    <h3>HKS Named Lead Architect for Washington Commanders New World-Class Stadium</h3>
-                    <p>The Washington Commanders named HKS as lead architect for the team's new state-of-the-art stadium in Washington, D.C.</p>
-                    <a href="#" class="news-link">Read more →</a>
-                </article>
-                <article class="news-card">
-                    <div class="news-badge">report</div>
-                    <h3>2025 Global Impact Report</h3>
-                    <p>Our 2025 Global Impact Report presents a holistic reflection of how HKS is embedding environmental and social governance across our operations.</p>
-                    <a href="#" class="news-link">Read more →</a>
-                </article>
-                <article class="news-card">
-                    <div class="news-badge">story</div>
-                    <h3>HKS Celebrates Limitless Thinking with 2025 Top Projects</h3>
-                    <p>For HKS staff, each year's Top Projects are a celebration of what we have done and where we can go.</p>
-                    <a href="#" class="news-link">Read more →</a>
-                </article>
-                <article class="news-card">
-                    <div class="news-badge">announcement</div>
-                    <h3>HKS Secures Its Succession – Heath May to succeed Dan Noble as CEO</h3>
-                    <p>HKS is proud to announce that Heath May will succeed Dan Noble as Chief Executive Officer and Chairman.</p>
-                    <a href="#" class="news-link">Read more →</a>
-                </article>
-            </div>
+        <div class="slideshow-controls">
+            <button class="slide-btn prev" onclick="changeSlide(-1)">‹</button>
+            <button class="slide-btn next" onclick="changeSlide(1)">›</button>
+        </div>
+        <div class="slideshow-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
         </div>
     </section>
 
     <!-- Who We Are Section -->
     <section id="who-we-are" class="who-we-are">
         <div class="container">
-            <h2 class="section-title">We are architects, designers, advisors and planners designing a better future.</h2>
+            <h2 class="section-title">We are engineers, architects, and innovators building excellence into every project.</h2>
             <div class="who-we-are-content">
                 <p>Who We Are</p>
             </div>
@@ -103,30 +73,15 @@
 
     <!-- How We Think Section -->
     <section id="how-we-think" class="how-we-think">
-        <div class="container">
-            <h2 class="section-title">design excellence</h2>
-            <p class="section-subtitle">You can make meaningful change through design.<br>Let us show you how.</p>
-            <div class="excellence-grid">
-                <div class="excellence-card">
-                    <h3>ESG in Design</h3>
-                    <p>Environmental, Social & Governance focuses on design's impact on people and our environment. It underpins design excellence.</p>
-                    <a href="#" class="card-link">Learn more →</a>
-                </div>
-                <div class="excellence-card">
-                    <h3>Research</h3>
-                    <p>Research enables our designers to create innovative environments based on the best possible information and insight.</p>
-                    <a href="#" class="card-link">Learn more →</a>
-                </div>
-                <div class="excellence-card">
-                    <h3>Innovation</h3>
-                    <p>We design within, through and beyond the built environment to create tomorrow's breakthroughs.</p>
-                    <a href="#" class="card-link">Read how →</a>
-                </div>
-                <div class="excellence-card">
-                    <h3>Award-winning Projects</h3>
-                    <p>Our project designs are honored with awards from organizations including the American Institute of Architects, Fast Company and the Prix Versailles.</p>
-                    <a href="#" class="card-link">Learn about →</a>
-                </div>
+        <video autoplay muted loop playsinline class="how-we-think-video">
+            <source src="https://hksinc.com/wp-content/uploads/2023/05/sphere-720.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="how-we-think-overlay"></div>
+        <div class="how-we-think-content">
+            <div class="container">
+                <h2 class="how-we-think-title">Design excellence</h2>
+                <p class="how-we-think-subtitle">Great architecture goes beyond appearance. We believe buildings should enhance daily life, respect their surroundings, and stand the test of time. By listening closely to our clients and collaborating across disciplines, we deliver designs that are both functional and inspiring.</p>
             </div>
         </div>
     </section>
@@ -137,49 +92,70 @@
             <h2 class="section-title">Featured Projects</h2>
             <div class="projects-grid">
                 <a href="project-bay-st-louis.html" class="project-card">
-                    <div class="project-image" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_1 - Photo.jpg');"></div>
+                    <div class="project-card-overlay"></div>
+                    <div class="project-image" style="background-image: url('Projects/1004-17 Bay St. Louis/RENDER 1_1 - Photo.jpg');">
+                        <span class="project-category">Commercial</span>
+                    </div>
                     <div class="project-info">
                         <h3>17 Bay St. Louis</h3>
                         <p>Residential</p>
                     </div>
                 </a>
                 <a href="project-yakima.html" class="project-card">
-                    <div class="project-image" style="background-image: url('Projects/6036 Yakima - Renders/Yakima_1 - Photo.jpg');"></div>
+                    <div class="project-card-overlay"></div>
+                    <div class="project-image" style="background-image: url('Projects/6036 Yakima - Renders/Yakima_1 - Photo.jpg');">
+                        <span class="project-category">Residential</span>
+                    </div>
                     <div class="project-info">
                         <h3>Yakima</h3>
                         <p>Residential</p>
                     </div>
                 </a>
                 <a href="project-heavy-truck.html" class="project-card">
-                    <div class="project-image" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/01.jpg');"></div>
+                    <div class="project-card-overlay"></div>
+                    <div class="project-image" style="background-image: url('Projects/6099-01 Heavy Truck Pitt - Renders/01.jpg');">
+                        <span class="project-category">Commercial</span>
+                    </div>
                     <div class="project-info">
                         <h3>Heavy Truck Pitt</h3>
                         <p>Commercial</p>
                     </div>
                 </a>
                 <a href="project-kitchen.html" class="project-card">
-                    <div class="project-image" style="background-image: url('Projects/6120-01 Kitchen - Renders/kitchen-cam01copy.jpg');"></div>
+                    <div class="project-card-overlay"></div>
+                    <div class="project-image" style="background-image: url('Projects/6120-01 Kitchen - Renders/kitchen-cam01copy.jpg');">
+                        <span class="project-category">Interior Design</span>
+                    </div>
                     <div class="project-info">
                         <h3>Kitchen Design</h3>
                         <p>Interior Design</p>
                     </div>
                 </a>
                 <a href="project-oncology.html" class="project-card">
-                    <div class="project-image" style="background-image: url('Projects/7002-22 Saffron Oncology - Interior Renders/Chemotherapy (1).jpg');"></div>
+                    <div class="project-card-overlay"></div>
+                    <div class="project-image" style="background-image: url('Projects/7002-22 Saffron Oncology - Interior Renders/Chemotherapy (1).jpg');">
+                        <span class="project-category">Healthcare</span>
+                    </div>
                     <div class="project-info">
                         <h3>Saffron Oncology</h3>
                         <p>Healthcare</p>
                     </div>
                 </a>
                 <a href="project-salon.html" class="project-card">
-                    <div class="project-image" style="background-image: url('Projects/7003-01 Salon - Interior Renders/008.jpg');"></div>
+                    <div class="project-card-overlay"></div>
+                    <div class="project-image" style="background-image: url('Projects/7003-01 Salon - Interior Renders/008.jpg');">
+                        <span class="project-category">Interior Design</span>
+                    </div>
                     <div class="project-info">
                         <h3>Salon</h3>
                         <p>Interior Design</p>
                     </div>
                 </a>
                 <a href="project-aurora.html" class="project-card">
-                    <div class="project-image" style="background-image: url('Projects/Aurora Residence - Renders/1.jpg');"></div>
+                    <div class="project-card-overlay"></div>
+                    <div class="project-image" style="background-image: url('Projects/Aurora Residence - Renders/1.jpg');">
+                        <span class="project-category">Residential</span>
+                    </div>
                     <div class="project-info">
                         <h3>Aurora Residence</h3>
                         <p>Residential</p>
@@ -196,12 +172,28 @@
     <section id="contact" class="contact">
         <div class="container">
             <h2 class="section-title">Let's create a better future together.</h2>
-            <div class="contact-buttons">
-                <a href="#" class="btn">Submit RFP</a>
-                <a href="#" class="btn">Join HKS xBE</a>
-                <a href="#" class="btn">Explore Careers</a>
-                <a href="#" class="btn">Contact PR</a>
-            </div>
+            <form id="contactForm" class="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+                <div id="formMessage" class="form-message"></div>
+            </form>
         </div>
     </section>
 
@@ -212,7 +204,6 @@
                 <div class="footer-section">
                     <h4>Browse By Practice</h4>
                     <ul>
-                        <li><a href="#">Aviation</a></li>
                         <li><a href="#">Health</a></li>
                         <li><a href="#">Hospitality</a></li>
                         <li><a href="#">Sports & Entertainment</a></li>
@@ -232,16 +223,13 @@
                 <div class="footer-section">
                     <h4>Browse By Office</h4>
                     <ul>
-                        <li><a href="#">Dallas</a></li>
-                        <li><a href="#">Los Angeles</a></li>
+                        <li><a href="#">Lahore</a></li>
                         <li><a href="#">New York</a></li>
-                        <li><a href="#">London</a></li>
-                        <li><a href="#">Dubai</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; HKS Inc 2025</p>
+                <p>&copy; Fusion Engineering 2025</p>
                 <div class="footer-links">
                     <a href="#">Privacy Policy</a>
                     <a href="#">Terms of Use</a>
@@ -250,6 +238,7 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
