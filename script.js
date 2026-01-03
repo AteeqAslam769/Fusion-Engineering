@@ -256,7 +256,7 @@ const projectImages = [
     'Projects/6036 Yakima - Renders/Yakima_1 - Photo.jpg',
     'Projects/6099-01 Heavy Truck Pitt - Renders/01.jpg',
     'Projects/6120-01 Kitchen - Renders/kitchen-cam01copy.jpg',
-    'Projects/7002-22 Saffron Oncology - Interior Renders/Chemotherapy (1).jpg',
+    'Projects/7002-22 Saffron Oncology - Interior Renders/Chemotherapy_1.jpg',
     'Projects/7003-01 Salon - Interior Renders/008.jpg',
     'Projects/Aurora Residence - Renders/1.jpg',
     'Projects/1004-17 Bay St. Louis/RENDER 1_5 - Photo.jpg',
