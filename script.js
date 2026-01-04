@@ -256,6 +256,10 @@ if (lightboxImg) {
 
 // 1. PRELOAD HERO IMAGES (High Priority)
 // ============================================
+// ============================================
+// MOBILE-OPTIMIZED IMAGE LOADING STRATEGY
+// ============================================
+
 const projectImages = [
     'Projects/1004-17 Bay St. Louis/RENDER 1_1 - Photo-min.webp',
     'Projects/6036 Yakima - Renders/Yakima_1 - Photo-min.webp',
@@ -285,51 +289,146 @@ function shuffleArray(array) {
 
 let currentSlideIndex = 0;
 let slideshowImages = [];
+let slideshowInterval = null;
 
-// Preload hero slideshow images with high priority
-function preloadHeroImages(imagePaths) {
+// Detect if user is on mobile/slow connection
+function isSlowConnection() {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (connection) {
+        const slowTypes = ['slow-2g', '2g', '3g'];
+        return slowTypes.includes(connection.effectiveType) || connection.saveData;
+    }
+    // Assume slow connection on mobile if API not available
+    return window.innerWidth < 768;
+}
+
+// Aggressive preload for hero images (CRITICAL for mobile)
+function aggressivePreloadHeroImages(imagePaths) {
     imagePaths.forEach((src, index) => {
+        // Method 1: Link preload
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as = 'image';
         link.href = src;
-        // First image gets highest priority
         if (index === 0) {
             link.fetchpriority = 'high';
         }
         document.head.appendChild(link);
+        
+        // Method 2: Also create Image object immediately for faster loading
+        const img = new Image();
+        if (index === 0) {
+            img.fetchpriority = 'high';
+        }
+        img.src = src;
     });
 }
 
-// Initialize slideshow with preloading
+// Initialize slideshow with aggressive mobile optimization
 function initializeHeroSlideshow() {
     const slides = document.querySelectorAll('.hero-slideshow .slide');
     if (slides.length === 0) return;
     
+    // Show loading indicator
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+        heroContent.style.opacity = '0.7';
+    }
+    
+    // For mobile, load fewer images initially
+    const isMobile = window.innerWidth < 768;
+    const imagesToLoad = isMobile ? 2 : slides.length; // Only 2 images on mobile initially
+    
     // Shuffle and select images
     slideshowImages = shuffleArray(projectImages).slice(0, slides.length);
     
-    // Preload these images immediately
-    preloadHeroImages(slideshowImages);
+    // Aggressively preload images
+    aggressivePreloadHeroImages(slideshowImages.slice(0, imagesToLoad));
     
-    // Set background images
+    let loadedCount = 0;
+    const requiredLoads = Math.min(1, imagesToLoad); // Wait for at least first image
+    
+    // Set background images with proper loading
     slides.forEach((slide, index) => {
-        if (slideshowImages[index]) {
+        if (slideshowImages[index] && index < imagesToLoad) {
             const img = new Image();
+            
+            // Set fetchpriority for first image
+            if (index === 0) {
+                img.fetchpriority = 'high';
+            }
+            
+            img.onload = () => {
+                slide.style.backgroundImage = `url('${slideshowImages[index]}')`;
+                slide.classList.add('loaded');
+                loadedCount++;
+                
+                // Start slideshow after first image loads
+                if (loadedCount === 1) {
+                    if (heroContent) {
+                        heroContent.style.opacity = '1';
+                    }
+                    startSlideshow();
+                    
+                    // Load remaining images in background (mobile only)
+                    if (isMobile && imagesToLoad < slides.length) {
+                        setTimeout(() => {
+                            loadRemainingHeroImages(slides, imagesToLoad);
+                        }, 1000);
+                    }
+                }
+            };
+            
+            img.onerror = () => {
+                console.error('Failed to load hero image:', slideshowImages[index]);
+                loadedCount++;
+                if (loadedCount === 1) {
+                    if (heroContent) {
+                        heroContent.style.opacity = '1';
+                    }
+                    startSlideshow();
+                }
+            };
+            
             img.src = slideshowImages[index];
+        }
+    });
+    
+    // Fallback: start slideshow after 3 seconds regardless
+    setTimeout(() => {
+        if (!slideshowInterval && loadedCount === 0) {
+            console.log('Fallback: Starting slideshow after timeout');
+            if (heroContent) {
+                heroContent.style.opacity = '1';
+            }
+            startSlideshow();
+        }
+    }, 3000);
+}
+
+// Load remaining hero images in background (for mobile)
+function loadRemainingHeroImages(slides, startIndex) {
+    slides.forEach((slide, index) => {
+        if (index >= startIndex && slideshowImages[index]) {
+            const img = new Image();
             img.onload = () => {
                 slide.style.backgroundImage = `url('${slideshowImages[index]}')`;
                 slide.classList.add('loaded');
             };
+            img.src = slideshowImages[index];
         }
     });
+}
+
+function startSlideshow() {
+    if (slideshowInterval) return; // Already started
     
-    // Start auto-slideshow after first image loads
-    setTimeout(() => {
-        setInterval(() => {
-            changeSlide(1);
-        }, 3000);
-    }, 500);
+    // Slower interval on mobile to save bandwidth
+    const interval = window.innerWidth < 768 ? 4000 : 3000;
+    
+    slideshowInterval = setInterval(() => {
+        changeSlide(1);
+    }, interval);
 }
 
 function changeSlide(direction) {
@@ -376,68 +475,88 @@ function currentSlide(index) {
     }
 }
 
-// 2. LAZY LOAD PROJECT CARDS (Lower Priority)
-// ============================================
+// IMPROVED LAZY LOAD FOR PROJECT CARDS (Mobile Optimized)
 function setupLazyLoadingForProjects() {
     const projectCards = document.querySelectorAll('.project-card');
     
-    // Check if browser supports Intersection Observer
     if ('IntersectionObserver' in window) {
+        // More aggressive loading on mobile
+        const rootMargin = window.innerWidth < 768 ? '200px 0px' : '100px 0px';
+        
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const card = entry.target;
                     const projectImage = card.querySelector('.project-image');
                     
-                    if (projectImage) {
+                    if (projectImage && !projectImage.classList.contains('loading')) {
+                        projectImage.classList.add('loading');
+                        
                         const bgImage = projectImage.style.backgroundImage;
                         const imageUrl = bgImage.replace(/url\(['"]?(.+?)['"]?\)/i, '$1');
                         
-                        // Create a new image to preload
+                        // Show placeholder/skeleton
+                        projectImage.style.backgroundColor = '#f0f0f0';
+                        
                         const img = new Image();
                         img.onload = () => {
+                            projectImage.style.backgroundColor = '';
                             projectImage.classList.add('loaded');
+                            projectImage.classList.remove('loading');
+                        };
+                        img.onerror = () => {
+                            projectImage.style.backgroundColor = '#e0e0e0';
+                            projectImage.classList.remove('loading');
                         };
                         img.src = imageUrl;
                     }
                     
-                    // Stop observing this card
                     observer.unobserve(card);
                 }
             });
         }, {
-            rootMargin: '50px 0px', // Start loading 50px before card enters viewport
+            rootMargin: rootMargin,
             threshold: 0.01
         });
         
-        // Observe all project cards
         projectCards.forEach(card => {
             imageObserver.observe(card);
         });
     } else {
-        // Fallback: load all images immediately if Intersection Observer not supported
+        // Fallback: load all immediately
         projectCards.forEach(card => {
             const projectImage = card.querySelector('.project-image');
             if (projectImage) {
-                projectImage.classList.add('loaded');
+                const bgImage = projectImage.style.backgroundImage;
+                const imageUrl = bgImage.replace(/url\(['"]?(.+?)['"]?\)/i, '$1');
+                
+                const img = new Image();
+                img.onload = () => {
+                    projectImage.classList.add('loaded');
+                };
+                img.src = imageUrl;
             }
         });
     }
 }
 
-// 3. OPTIMIZE DESIGN EXCELLENCE VIDEO
-// ============================================
+// OPTIMIZE VIDEO FOR MOBILE
 function optimizeVideo() {
     const video = document.querySelector('.how-we-think-video');
     if (video) {
-        // Set loading attribute
-        video.setAttribute('loading', 'lazy');
+        const isMobile = window.innerWidth < 768;
+        
+        // On slow connections, don't autoplay video
+        if (isSlowConnection()) {
+            video.removeAttribute('autoplay');
+            video.pause();
+            video.poster = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"%3E%3Crect fill="%23333" width="1920" height="1080"/%3E%3C/svg%3E';
+        }
         
         video.addEventListener('loadeddata', () => {
             video.classList.add('loaded');
         });
         
-        // Fallback
         setTimeout(() => {
             if (!video.classList.contains('loaded')) {
                 video.classList.add('loaded');
@@ -450,16 +569,25 @@ function optimizeVideo() {
 // MAIN INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    // Log connection type for debugging
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (connection) {
+        console.log('Connection type:', connection.effectiveType);
+    }
+    
     // 1. Initialize hero slideshow immediately (highest priority)
     initializeHeroSlideshow();
     
-    // 2. Setup lazy loading for project cards
-    setupLazyLoadingForProjects();
+    // 2. Setup lazy loading for project cards (wait a bit on mobile)
+    const projectLoadDelay = window.innerWidth < 768 ? 500 : 0;
+    setTimeout(() => {
+        setupLazyLoadingForProjects();
+    }, projectLoadDelay);
     
     // 3. Optimize video loading
     optimizeVideo();
     
-    // Rest of your existing code...
+    // 4. Rest of functionality
     setupNavigationAndAnimations();
     setupContactForm();
 });
@@ -573,8 +701,10 @@ function setupNavigationAndAnimations() {
         });
     }, observerOptions);
 
-    // Parallax effect for Design Excellence section
+    // Parallax effect for Design Excellence section (disable on mobile)
     function handleDesignExcellenceParallax() {
+        if (window.innerWidth < 768) return; // Skip on mobile
+        
         const section = document.querySelector('.how-we-think');
         const title = document.querySelector('.how-we-think-title');
         const subtitle = document.querySelector('.how-we-think-subtitle');
@@ -609,9 +739,10 @@ function setupNavigationAndAnimations() {
     const cardObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
+                const delay = window.innerWidth < 768 ? index * 50 : index * 100; // Faster on mobile
                 setTimeout(() => {
                     entry.target.classList.add('scroll-visible');
-                }, index * 100);
+                }, delay);
                 cardObserver.unobserve(entry.target);
             }
         });
@@ -636,19 +767,21 @@ function setupNavigationAndAnimations() {
         observer.observe(title);
     });
     
-    // Set up parallax scroll listener with throttling
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                handleDesignExcellenceParallax();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }, { passive: true });
-    
-    handleDesignExcellenceParallax();
+    // Set up parallax scroll listener with throttling (desktop only)
+    if (window.innerWidth >= 768) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleDesignExcellenceParallax();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+        
+        handleDesignExcellenceParallax();
+    }
 
     // Add active state to navigation links based on scroll position
     const sections = document.querySelectorAll('section[id]');
