@@ -1,17 +1,23 @@
-// Mobile Menu Toggle
+// ============================================
+// NAVIGATION AND MOBILE MENU
+// ============================================
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+}
 
 // Close menu when clicking on a link
 document.querySelectorAll('.nav-menu a').forEach(link => {
     link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+        if (hamburger && navMenu) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
     });
 });
 
@@ -30,7 +36,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Rotating text in hero section
+// ============================================
+// ROTATING TEXT IN HERO SECTION
+// ============================================
 const rotatingTexts = [
     'Building Tomorrow.',
     'Innovating Solutions.',
@@ -58,28 +66,35 @@ function rotateText() {
 
 // Start rotating text after initial delay
 if (rotatingTextElement) {
+    rotatingTextElement.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     setTimeout(() => {
         setInterval(rotateText, 3000);
     }, 2000);
 }
 
-// Navbar background on scroll
+// ============================================
+// NAVBAR SCROLL EFFECTS
+// ============================================
 let lastScroll = 0;
 const navbar = document.querySelector('.navbar');
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
-    if (currentScroll > 100) {
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.08)';
+    if (navbar) {
+        if (currentScroll > 100) {
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.08)';
+        }
     }
     
     lastScroll = currentScroll;
 });
 
-// Intersection Observer for fade-in animations
+// ============================================
+// INTERSECTION OBSERVER FOR ANIMATIONS
+// ============================================
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -97,8 +112,12 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Parallax effect for Design Excellence section
+// ============================================
+// PARALLAX EFFECT FOR DESIGN EXCELLENCE SECTION
+// ============================================
 function handleDesignExcellenceParallax() {
+    if (window.innerWidth < 768) return; // Skip on mobile
+    
     const section = document.querySelector('.how-we-think');
     const title = document.querySelector('.how-we-think-title');
     const subtitle = document.querySelector('.how-we-think-subtitle');
@@ -108,26 +127,25 @@ function handleDesignExcellenceParallax() {
     const rect = section.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // Only apply parallax when section is in viewport
     if (rect.bottom >= 0 && rect.top <= windowHeight) {
         const scrolled = window.pageYOffset;
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         const scrollProgress = (scrolled + windowHeight - sectionTop) / (sectionHeight + windowHeight);
         
-        // Clamp between 0 and 1
         const progress = Math.max(0, Math.min(1, scrollProgress));
         
-        // Subtle parallax movement (negative moves up, positive moves down)
-        const titleOffset = (progress - 0.5) * 40; // Max 40px movement
-        const subtitleOffset = (progress - 0.5) * 30; // Max 30px movement
+        const titleOffset = (progress - 0.5) * 40;
+        const subtitleOffset = (progress - 0.5) * 30;
         
         title.style.transform = `translateY(${titleOffset}px)`;
         subtitle.style.transform = `translateY(${subtitleOffset}px)`;
     }
 }
 
-// Enhanced observer for project cards with staggered animation
+// ============================================
+// ENHANCED OBSERVER FOR PROJECT CARDS
+// ============================================
 const cardObserverOptions = {
     threshold: 0.15,
     rootMargin: '0px 0px -100px 0px'
@@ -136,60 +154,18 @@ const cardObserverOptions = {
 const cardObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
+            const delay = window.innerWidth < 768 ? index * 50 : index * 100;
             setTimeout(() => {
                 entry.target.classList.add('scroll-visible');
-            }, index * 100); // Stagger animation
+            }, delay);
             cardObserver.unobserve(entry.target);
         }
     });
 }, cardObserverOptions);
 
-// Observe elements for animation
-document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.news-card, .excellence-card');
-    animateElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        observer.observe(el);
-    });
-    
-    // Observe project cards with staggered animation
-    const projectCards = document.querySelectorAll('.project-card');
-    projectCards.forEach(card => {
-        cardObserver.observe(card);
-    });
-    
-    // Observe section titles
-    const sectionTitles = document.querySelectorAll('.section-title');
-    sectionTitles.forEach(title => {
-        observer.observe(title);
-    });
-    
-    // Set up parallax scroll listener with throttling
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                handleDesignExcellenceParallax();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }, { passive: true });
-    
-    // Initial call
-    handleDesignExcellenceParallax();
-});
-
-// Add smooth transitions to rotating text
-if (rotatingTextElement) {
-    rotatingTextElement.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-}
-
-// Removed parallax effect to prevent overlap issues
-
-// Add active state to navigation links based on scroll position
+// ============================================
+// ACTIVE NAVIGATION HIGHLIGHTING
+// ============================================
 const sections = document.querySelectorAll('section[id]');
 
 function highlightNavigation() {
@@ -213,7 +189,9 @@ function highlightNavigation() {
 
 window.addEventListener('scroll', highlightNavigation);
 
-// Lightbox functionality for project galleries
+// ============================================
+// LIGHTBOX FUNCTIONALITY
+// ============================================
 function openLightbox(element) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -243,23 +221,16 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Prevent lightbox from closing when clicking on the image
-const lightboxImg = document.getElementById('lightbox-img');
-if (lightboxImg) {
-    lightboxImg.addEventListener('click', (e) => {
+const lightboxImgElement = document.getElementById('lightbox-img');
+if (lightboxImgElement) {
+    lightboxImgElement.addEventListener('click', (e) => {
         e.stopPropagation();
     });
 }
 
 // ============================================
-// OPTIMIZED IMAGE LOADING STRATEGY
+// IMAGE LOADING OPTIMIZATION
 // ============================================
-
-// 1. PRELOAD HERO IMAGES (High Priority)
-// ============================================
-// ============================================
-// MOBILE-OPTIMIZED IMAGE LOADING STRATEGY
-// ============================================
-
 const projectImages = [
     'Projects/1004-17 Bay St. Louis/RENDER 1_1 - Photo-min.webp',
     'Projects/6036 Yakima - Renders/Yakima_1 - Photo-min.webp',
@@ -298,14 +269,12 @@ function isSlowConnection() {
         const slowTypes = ['slow-2g', '2g', '3g'];
         return slowTypes.includes(connection.effectiveType) || connection.saveData;
     }
-    // Assume slow connection on mobile if API not available
     return window.innerWidth < 768;
 }
 
-// Aggressive preload for hero images (CRITICAL for mobile)
+// Aggressive preload for hero images
 function aggressivePreloadHeroImages(imagePaths) {
     imagePaths.forEach((src, index) => {
-        // Method 1: Link preload
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as = 'image';
@@ -315,7 +284,6 @@ function aggressivePreloadHeroImages(imagePaths) {
         }
         document.head.appendChild(link);
         
-        // Method 2: Also create Image object immediately for faster loading
         const img = new Image();
         if (index === 0) {
             img.fetchpriority = 'high';
@@ -329,31 +297,24 @@ function initializeHeroSlideshow() {
     const slides = document.querySelectorAll('.hero-slideshow .slide');
     if (slides.length === 0) return;
     
-    // Show loading indicator
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {
         heroContent.style.opacity = '0.7';
     }
     
-    // For mobile, load fewer images initially
     const isMobile = window.innerWidth < 768;
-    const imagesToLoad = isMobile ? 2 : slides.length; // Only 2 images on mobile initially
+    const imagesToLoad = isMobile ? 2 : slides.length;
     
-    // Shuffle and select images
     slideshowImages = shuffleArray(projectImages).slice(0, slides.length);
     
-    // Aggressively preload images
     aggressivePreloadHeroImages(slideshowImages.slice(0, imagesToLoad));
     
     let loadedCount = 0;
-    const requiredLoads = Math.min(1, imagesToLoad); // Wait for at least first image
     
-    // Set background images with proper loading
     slides.forEach((slide, index) => {
         if (slideshowImages[index] && index < imagesToLoad) {
             const img = new Image();
             
-            // Set fetchpriority for first image
             if (index === 0) {
                 img.fetchpriority = 'high';
             }
@@ -363,14 +324,12 @@ function initializeHeroSlideshow() {
                 slide.classList.add('loaded');
                 loadedCount++;
                 
-                // Start slideshow after first image loads
                 if (loadedCount === 1) {
                     if (heroContent) {
                         heroContent.style.opacity = '1';
                     }
                     startSlideshow();
                     
-                    // Load remaining images in background (mobile only)
                     if (isMobile && imagesToLoad < slides.length) {
                         setTimeout(() => {
                             loadRemainingHeroImages(slides, imagesToLoad);
@@ -394,7 +353,6 @@ function initializeHeroSlideshow() {
         }
     });
     
-    // Fallback: start slideshow after 3 seconds regardless
     setTimeout(() => {
         if (!slideshowInterval && loadedCount === 0) {
             console.log('Fallback: Starting slideshow after timeout');
@@ -406,7 +364,7 @@ function initializeHeroSlideshow() {
     }, 3000);
 }
 
-// Load remaining hero images in background (for mobile)
+// Load remaining hero images in background
 function loadRemainingHeroImages(slides, startIndex) {
     slides.forEach((slide, index) => {
         if (index >= startIndex && slideshowImages[index]) {
@@ -421,9 +379,8 @@ function loadRemainingHeroImages(slides, startIndex) {
 }
 
 function startSlideshow() {
-    if (slideshowInterval) return; // Already started
+    if (slideshowInterval) return;
     
-    // Slower interval on mobile to save bandwidth
     const interval = window.innerWidth < 768 ? 4000 : 3000;
     
     slideshowInterval = setInterval(() => {
@@ -475,12 +432,13 @@ function currentSlide(index) {
     }
 }
 
-// IMPROVED LAZY LOAD FOR PROJECT CARDS (Mobile Optimized)
+// ============================================
+// LAZY LOADING FOR PROJECT CARDS
+// ============================================
 function setupLazyLoadingForProjects() {
     const projectCards = document.querySelectorAll('.project-card');
     
     if ('IntersectionObserver' in window) {
-        // More aggressive loading on mobile
         const rootMargin = window.innerWidth < 768 ? '200px 0px' : '100px 0px';
         
         const imageObserver = new IntersectionObserver((entries, observer) => {
@@ -495,7 +453,6 @@ function setupLazyLoadingForProjects() {
                         const bgImage = projectImage.style.backgroundImage;
                         const imageUrl = bgImage.replace(/url\(['"]?(.+?)['"]?\)/i, '$1');
                         
-                        // Show placeholder/skeleton
                         projectImage.style.backgroundColor = '#f0f0f0';
                         
                         const img = new Image();
@@ -523,7 +480,6 @@ function setupLazyLoadingForProjects() {
             imageObserver.observe(card);
         });
     } else {
-        // Fallback: load all immediately
         projectCards.forEach(card => {
             const projectImage = card.querySelector('.project-image');
             if (projectImage) {
@@ -540,13 +496,12 @@ function setupLazyLoadingForProjects() {
     }
 }
 
-// OPTIMIZE VIDEO FOR MOBILE
+// ============================================
+// VIDEO OPTIMIZATION
+// ============================================
 function optimizeVideo() {
     const video = document.querySelector('.how-we-think-video');
     if (video) {
-        const isMobile = window.innerWidth < 768;
-        
-        // On slow connections, don't autoplay video
         if (isSlowConnection()) {
             video.removeAttribute('autoplay');
             video.pause();
@@ -566,284 +521,8 @@ function optimizeVideo() {
 }
 
 // ============================================
-// MAIN INITIALIZATION
+// CONTACT FORM HANDLING
 // ============================================
-document.addEventListener('DOMContentLoaded', () => {
-    // Log connection type for debugging
-    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    if (connection) {
-        console.log('Connection type:', connection.effectiveType);
-    }
-    
-    // 1. Initialize hero slideshow immediately (highest priority)
-    initializeHeroSlideshow();
-    
-    // 2. Setup lazy loading for project cards (wait a bit on mobile)
-    const projectLoadDelay = window.innerWidth < 768 ? 500 : 0;
-    setTimeout(() => {
-        setupLazyLoadingForProjects();
-    }, projectLoadDelay);
-    
-    // 3. Optimize video loading
-    optimizeVideo();
-    
-    // 4. Rest of functionality
-    setupNavigationAndAnimations();
-    setupContactForm();
-});
-
-// ============================================
-// EXISTING FUNCTIONALITY (Consolidated)
-// ============================================
-function setupNavigationAndAnimations() {
-    // Mobile Menu Toggle
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-    }
-
-    // Close menu when clicking on a link
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (hamburger && navMenu) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    });
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const offsetTop = target.offsetTop - 70;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Rotating text in hero section
-    const rotatingTexts = [
-        'Building Tomorrow.',
-        'Innovating Solutions.',
-        'Creating Value.',
-        'Delivering Quality.',
-        'Shaping Futures.'
-    ];
-
-    let currentIndex = 0;
-    const rotatingTextElement = document.getElementById('rotatingText');
-
-    function rotateText() {
-        if (rotatingTextElement) {
-            rotatingTextElement.style.opacity = '0';
-            rotatingTextElement.style.transform = 'translateY(-20px)';
-            
-            setTimeout(() => {
-                currentIndex = (currentIndex + 1) % rotatingTexts.length;
-                rotatingTextElement.textContent = rotatingTexts[currentIndex];
-                rotatingTextElement.style.opacity = '1';
-                rotatingTextElement.style.transform = 'translateY(0)';
-            }, 300);
-        }
-    }
-
-    if (rotatingTextElement) {
-        rotatingTextElement.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        setTimeout(() => {
-            setInterval(rotateText, 3000);
-        }, 2000);
-    }
-
-    // Navbar background on scroll
-    let lastScroll = 0;
-    const navbar = document.querySelector('.navbar');
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        if (navbar) {
-            if (currentScroll > 100) {
-                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.08)';
-            }
-        }
-        
-        lastScroll = currentScroll;
-    });
-
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                if (entry.target.classList.contains('section-title')) {
-                    entry.target.classList.add('visible');
-                }
-            }
-        });
-    }, observerOptions);
-
-    // Parallax effect for Design Excellence section (disable on mobile)
-    function handleDesignExcellenceParallax() {
-        if (window.innerWidth < 768) return; // Skip on mobile
-        
-        const section = document.querySelector('.how-we-think');
-        const title = document.querySelector('.how-we-think-title');
-        const subtitle = document.querySelector('.how-we-think-subtitle');
-        
-        if (!section || !title || !subtitle) return;
-        
-        const rect = section.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        
-        if (rect.bottom >= 0 && rect.top <= windowHeight) {
-            const scrolled = window.pageYOffset;
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const scrollProgress = (scrolled + windowHeight - sectionTop) / (sectionHeight + windowHeight);
-            
-            const progress = Math.max(0, Math.min(1, scrollProgress));
-            
-            const titleOffset = (progress - 0.5) * 40;
-            const subtitleOffset = (progress - 0.5) * 30;
-            
-            title.style.transform = `translateY(${titleOffset}px)`;
-            subtitle.style.transform = `translateY(${subtitleOffset}px)`;
-        }
-    }
-
-    // Enhanced observer for project cards with staggered animation
-    const cardObserverOptions = {
-        threshold: 0.15,
-        rootMargin: '0px 0px -100px 0px'
-    };
-
-    const cardObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                const delay = window.innerWidth < 768 ? index * 50 : index * 100; // Faster on mobile
-                setTimeout(() => {
-                    entry.target.classList.add('scroll-visible');
-                }, delay);
-                cardObserver.unobserve(entry.target);
-            }
-        });
-    }, cardObserverOptions);
-
-    // Observe elements for animation
-    const animateElements = document.querySelectorAll('.news-card, .excellence-card');
-    animateElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        observer.observe(el);
-    });
-    
-    const projectCards = document.querySelectorAll('.project-card');
-    projectCards.forEach(card => {
-        cardObserver.observe(card);
-    });
-    
-    const sectionTitles = document.querySelectorAll('.section-title');
-    sectionTitles.forEach(title => {
-        observer.observe(title);
-    });
-    
-    // Set up parallax scroll listener with throttling (desktop only)
-    if (window.innerWidth >= 768) {
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    handleDesignExcellenceParallax();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
-        
-        handleDesignExcellenceParallax();
-    }
-
-    // Add active state to navigation links based on scroll position
-    const sections = document.querySelectorAll('section[id]');
-
-    function highlightNavigation() {
-        const scrollY = window.pageYOffset;
-
-        sections.forEach(section => {
-            const sectionHeight = section.offsetHeight;
-            const sectionTop = section.offsetTop - 100;
-            const sectionId = section.getAttribute('id');
-
-            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                document.querySelectorAll('.nav-menu a').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }
-
-    window.addEventListener('scroll', highlightNavigation);
-}
-
-// Lightbox functionality
-function openLightbox(element) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    
-    if (lightbox && lightboxImg) {
-        const bgImage = element.style.backgroundImage;
-        const imageUrl = bgImage.replace(/url\(['"]?(.+?)['"]?\)/i, '$1');
-        lightboxImg.src = imageUrl;
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    if (lightbox) {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeLightbox();
-    }
-});
-
-lightboxImg = document.getElementById('lightbox-img');
-if (lightboxImg) {
-    lightboxImg.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-}
-
-// Contact Form Handling
 function setupContactForm() {
     const contactForm = document.getElementById('contactForm');
     const formMessage = document.getElementById('formMessage');
@@ -920,3 +599,63 @@ function setupContactForm() {
         });
     }
 }
+
+// ============================================
+// MAIN INITIALIZATION
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (connection) {
+        console.log('Connection type:', connection.effectiveType);
+    }
+    
+    // Initialize hero slideshow
+    initializeHeroSlideshow();
+    
+    // Setup lazy loading for project cards
+    const projectLoadDelay = window.innerWidth < 768 ? 500 : 0;
+    setTimeout(() => {
+        setupLazyLoadingForProjects();
+    }, projectLoadDelay);
+    
+    // Optimize video loading
+    optimizeVideo();
+    
+    // Setup contact form
+    setupContactForm();
+    
+    // Observe elements for animation
+    const animateElements = document.querySelectorAll('.news-card, .excellence-card');
+    animateElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        observer.observe(el);
+    });
+    
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+        cardObserver.observe(card);
+    });
+    
+    const sectionTitles = document.querySelectorAll('.section-title');
+    sectionTitles.forEach(title => {
+        observer.observe(title);
+    });
+    
+    // Set up parallax scroll listener (desktop only)
+    if (window.innerWidth >= 768) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleDesignExcellenceParallax();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+        
+        handleDesignExcellenceParallax();
+    }
+});
